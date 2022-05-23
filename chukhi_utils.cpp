@@ -137,6 +137,54 @@ void speedup(int& time, int& speed)
         speed += /*SPEED_UP*/ 1;
     }
 }
+void GenerateEnemy(Enemy& enemy1, Enemy& enemy2, Enemy& enemy3, SDL_Renderer* gRenderer)
+{
+    enemy1.LoadFromFile("imgs/Enemy/Enemy1.png", gRenderer);
+	enemy2.LoadFromFile("imgs/Enemy/Enemy2.png", gRenderer);
+	enemy3.LoadFromFile("imgs/Enemy/Enemy3.png", gRenderer);
+}
 
 bool CheckInside(){return false;}
 bool CheckColission(){return false;}
+
+void DrawEndGameSelection(LTexture gLoseTexture,
+	SDL_Event *e,
+	SDL_Renderer *gRenderer,
+	bool &Play_Again, bool& Return_Menu)
+{
+	if (Play_Again)
+	{
+		bool End_Game = false;
+		while (!End_Game)
+		{
+			while (SDL_PollEvent(e) != 0)
+			{
+				if (e->type == SDL_QUIT)
+				{
+					Play_Again = false;
+					Return_Menu = false;
+				}
+
+				if (e->type == SDL_KEYDOWN)
+				{
+					switch (e->key.keysym.sym)
+					{
+					case SDLK_SPACE:
+						End_Game = true;
+						Return_Menu = false;
+						break;
+					case SDLK_b:
+						End_Game = true;
+						Play_Again = false;
+						Return_Menu = true;
+						break;
+					}
+				}
+			}
+
+			gLoseTexture.Render(0, 0, gRenderer);
+
+			SDL_RenderPresent(gRenderer);
+		}
+	}
+}

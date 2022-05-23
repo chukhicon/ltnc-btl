@@ -41,6 +41,8 @@ Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
 Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
 Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
 
+Character character;
+
 bool Quit_Menu=false, Play_Again=false, Quit_Game = false;
 
 SDL_Rect gPlayButton;
@@ -117,6 +119,51 @@ int main(int argc, char* argv[])
 				SDL_RenderPresent(gRenderer);
 
 			}
+            bool Return_Menu = false;
+			while(Play_Again && !Return_Menu)
+            {
+                srand(time(NULL));
+				int time = 0;
+				int score = 0;
+				int heath = 8;
+				int armor = 0;
+				int acceleration = 0;
+				/*int frame_Character = 0;
+				int frame_Enemy = 0;*/
+				string highscore = GetHighScoreFromFile("high_score.txt");
+
+				SDL_Event e;
+				//Enemy enemy1;
+				//Enemy enemy2;
+				//Enemy enemy3;
+
+				Mix_PlayMusic(gMusic, IS_REPEATITIVE);
+				//GenerateEnemy(enemy1, enemy2, enemy3, gRenderer);
+				bool Quit = false;
+				bool Game_Stage = true;
+				/*while(!Quit)
+                {
+                    if(Game_Stage)
+                    {
+                        //UpdateGameTimeAndScore(time, acceleration, score);
+
+						while (SDL_PollEvent(&e) != 0)
+						{
+							if (e.type == SDL_QUIT)
+							{
+								Quit = true;
+								Play_Again = false;
+							}
+
+							//character.HandleEvent(e, gJump);
+						}
+						SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+						SDL_RenderClear(gRenderer);
+						gBackgroundTexture.Render(0, 0, gRenderer);
+                    }
+                }*/
+                //DrawEndGameSelection(gLoseTexture, &e, gRenderer, Play_Again, Return_Menu);
+            }
         }
     }
 
@@ -204,26 +251,36 @@ bool loadMedia()
         cerr << "Failed to load lose image" << endl;
         success = false;
     }
-    if (!gText1Texture.LoadFromRenderedText("Your score: ", gFont, textColor, gRenderer))
+    gFont = TTF_OpenFont("Font/RobotoCondensed-Regular.ttf", 28);
+    if (gFont == NULL)
     {
-        cerr << "Failed to render text1 texture" << endl;
+        LogError("Failed to load font", MIX_ERROR);
         success = false;
     }
-    if (!gText2Texture.LoadFromRenderedText("High score: ", gFont, textColor, gRenderer))
+    else
     {
-        cerr << "Failed to render text2 texture" << endl;
-        success = false;
+        if (!gText1Texture.LoadFromRenderedText("Your score: ", gFont, textColor, gRenderer))
+        {
+            cerr << "Failed to render text1 texture" << endl;
+            success = false;
+        }
+        if (!gText2Texture.LoadFromRenderedText("High score: ", gFont, textColor, gRenderer))
+        {
+            cerr << "Failed to render text2 texture" << endl;
+            success = false;
+        }
+        if (!gText3Texture.LoadFromRenderedText("Your heath: ", gFont, textColor, gRenderer))
+        {
+            cerr << "Failed to render text3 texture" << endl;
+            success = false;
+        }
+        if (!gText4Texture.LoadFromRenderedText("Your armor: ", gFont, textColor, gRenderer))
+        {
+            cerr << "Failed to render text4 texture" << endl;
+            success = false;
+        }
     }
-    if (!gText3Texture.LoadFromRenderedText("Your heath: ", gFont, textColor, gRenderer))
-    {
-        cerr << "Failed to render text3 texture" << endl;
-        success = false;
-    }
-    if (!gText4Texture.LoadFromRenderedText("Your armor: ", gFont, textColor, gRenderer))
-    {
-        cerr << "Failed to render text4 texture" << endl;
-        success = false;
-    }
+
     return success;
 
 }

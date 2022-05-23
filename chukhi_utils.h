@@ -39,7 +39,7 @@ void HandleExitButton(SDL_Event* e,
 	bool& Quit,
 	Mix_Chunk* gClick);
 
-void GenerateEnemy();
+void GenerateEnemy(Enemy& enemy1, Enemy& enemy2, Enemy& enemy3, SDL_Renderer* gRenderer);
 
 void GenerateHelp();
 
@@ -50,4 +50,10 @@ bool CheckColission();
 void XuLyDiem(int& health,
                Enemy enemy1, Enemy enemy2, Enemy enemy3,
                bool CheckColission );
+
+void DrawEndGameSelection(LTexture gLoseTexture,
+	SDL_Event *e,
+	SDL_Renderer *gRenderer,
+	bool &Play_Again, bool& Return_Menu);
+
 #endif // CHUKHI_UTILS_H_

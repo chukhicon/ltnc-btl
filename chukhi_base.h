@@ -7,7 +7,9 @@
 #include<SDL_ttf.h>
 using namespace std;
 
+#define IS_REPEATITIVE -1
 #define NOT_REPEATITIVE 0
+
 #define MIX_CHANNEL -1
 
 #define SMALL_BUTTON 1
