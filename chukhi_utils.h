@@ -54,6 +54,6 @@ void XuLyDiem(int& health,
 void DrawEndGameSelection(LTexture gLoseTexture,
 	SDL_Event *e,
 	SDL_Renderer *gRenderer,
-	bool &Play_Again, bool& Return_Menu);
+	bool &Play_Again, bool& Return_Menu, bool& Quit_Menu);
 
 #endif // CHUKHI_UTILS_H_

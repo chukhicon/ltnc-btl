@@ -3,9 +3,6 @@ project(khicon VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
-find_package(
-    SDL2 REQUIRED
-)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # include_directories(
@@ -18,8 +15,8 @@ file(GLOB game_SRC
 )    
 
 if (WIN32)
-    set(SDL2_INCLUDE_DIR "C:/SDL2-2.0.22/x86_64-w64-mingw32/include/SDL2")
-    set(SDL2_LIBRARY_DIR "C:/SDL2-2.0.22/x86_64-w64-mingw32/lib")
+    set(SDL2_INCLUDE_DIR "C:/SDL2-2.0.20/x86_64-w64-mingw32/include/SDL2")
+    set(SDL2_LIBRARY_DIR "C:/SDL2-2.0.20/x86_64-w64-mingw32/lib")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -mwindows -static-libgcc -static-libstdc++")
     include_directories(${SDL2_INCLUDE_DIR})
     link_directories(${SDL2_LIBRARY_DIR})
@@ -43,7 +40,7 @@ target_link_libraries(khicon
 )
 
 # install(DIRECTORY res DESTINATION res)
-file(COPY imgs DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY imgs Font DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 if (WIN32)
     file(GLOB lib
         "${SDL2_LIBRARY_DIR}/../bin/*.dll"
