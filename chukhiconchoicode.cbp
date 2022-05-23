@@ -38,9 +38,15 @@
 		<Unit filename="chukhi_base.h" />
 		<Unit filename="chukhi_button.cpp" />
 		<Unit filename="chukhi_button.h" />
+		<Unit filename="chukhi_character.cpp" />
 		<Unit filename="chukhi_character.h" />
+		<Unit filename="chukhi_enemy.cpp" />
+		<Unit filename="chukhi_enemy.h" />
 		<Unit filename="chukhi_utils.cpp" />
 		<Unit filename="chukhi_utils.h" />
+		<Unit filename="imgs/Background/.png" />
+		<Unit filename="imgs/Background/game_menu.png" />
+		<Unit filename="imgs/Background/game_play.png" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

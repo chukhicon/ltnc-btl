@@ -1,6 +1,6 @@
 #include "chukhi_base.h"
 
-void LogError(string msg, int error_code)
+void LogError(string msg, ErrorType error_code)
 {
 	if (error_code == SDL_ERROR)
 	{

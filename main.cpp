@@ -1,9 +1,16 @@
 #include "chukhi_base.h"
+#include "chukhi_utils.h"
+#include "chukhi_LTexture.h"
+#include "chukhi_button.h"
+#include "chukhi_character.h"
+#include "chukhi_enemy.h"
+#include "chukhi_help.h"
 
+const char* WINDOW_TITLE = "game cua chukhicon ne";
 
 SDL_Window* gWindow = nullptr;
 SDL_Renderer* gRenderer = nullptr;
-/*SDL_Color textColor = { 0, 0, 0 };
+SDL_Color textColor = { 0, 0, 0 };
 TTF_Font* gFont = nullptr;
 Mix_Music* gMusic = nullptr;
 Mix_Music* gMenuMusic = nullptr;
@@ -11,25 +18,37 @@ Mix_Chunk* gClick = nullptr;
 Mix_Chunk* gBom = nullptr;
 Mix_Chunk* gLose = nullptr;
 
-LTexture gTextTexture;
+LTexture gMenuTexture;
+LTexture gInstructionTexture;
+LTexture gBackgroundTexture;
+LTexture gCharacterTexture;
+LTexture gPlayButtonTexture;
+LTexture gHelpButtonTexture;
+LTexture gExitButtonTexture;
+LTexture gBackButtonTexture;
+LTexture gLoseTexture;
+LTexture gText1Texture;
+LTexture gScoreTexture;
+LTexture gText2Texture;
+LTexture gHighScoreTexture;
+LTexture gText3Texture;
+LTexture gHeathTexture;
+LTexture gText4Texture;
+LTexture gArmorTexture;
 
 Button PlayButton(PLAY_BUTON_POSX, PLAY_BUTTON_POSY);
-Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);*/
+Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
+Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
+Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
 
-bool quit_menu=false, play_again=false, Quit_Game = false;
+bool Quit_Menu=false, Play_Again=false, Quit_Game = false;
 
-/*SDL_Rect gPlayButton[BUTTON_TOTAL];
-SDL_Rect gExitButton[BUTTON_TOTAL];
-SDL_Rect gBackButton[BUTTON_TOTAL];
-SDL_Rect gPauseButton[BUTTON_TOTAL];
-SDL_Rect gContinueButton[BUTTON_TOTAL];
-SDL_Rect gPlayAgainButton[BUTTON_TOTAL];
-SDL_Rect gCharacterClips[RUNNING_FRAMES];
+SDL_Rect gPlayButton;
+SDL_Rect gExitButton;
+SDL_Rect gHelpButton;
+SDL_Rect gBackButton;
+/*SDL_Rect gCharacterClips[RUNNING_FRAMES];
 SDL_Rect gEnemyClips[FLYING_FRAMES];*/
-/*SDL_Window* window;
-SDL_Renderer* renderer;
-SDL_Surface *screen;
-SDL_Surface *image;*/
 
 int random(int N)
 {
@@ -37,30 +56,29 @@ int random(int N)
 }
 
 
-
+bool initSDL();
+bool loadMedia();
+void Close();
 
 int main(int argc, char* argv[])
 {
     srand(time(NULL));
-    initSDL();
 
 
-    const int step=50;
-    if(!initSDL)
+    //const int step=50;
+    if(!initSDL())
     {
-        cout << "load init loi roi !!" << endl;
+        cerr << "load init loi roi !!" << endl;
     }
     else
     {
         if(!loadMedia())
         {
-            cout << "load media failed" << endl;
+            cerr << "load media failed" << endl;
         }
         else{
-            SDL_Texture* background = loadTexture("imgs\Background\game_menu.png", renderer);
-            SDL_RenderCopy( gRenderer, background, NULL, NULL);
 
-            /*Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
+            //Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
             while (!Quit_Menu)
 			{
 				SDL_Event e_mouse;
@@ -72,6 +90,10 @@ int main(int argc, char* argv[])
 					}
 					HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
 
+					HandleHelpButton(&e_mouse, gBackButton,
+									 HelpButton, BackButton,
+									 gInstructionTexture, gBackButtonTexture,
+									 gRenderer, Quit_Game, gClick);
 
 					HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
 
@@ -83,47 +105,30 @@ int main(int argc, char* argv[])
 
 				gMenuTexture.Render(0, 0, gRenderer);
 
-				SDL_Rect* currentClip_Play = &gPlayButton[PlayButton.currentSprite];
-				PlayButton.Render(currentClip_Play, gRenderer, gPlayButtonTexture);
+				// SDL_Rect* currentClip_Play = &gPlayButton[PlayButton.currentSprite];
+				//PlayButton.Render( gRenderer, gPlayButtonTexture);
 
-				SDL_Rect* currentClip_Exit = &gExitButton[ExitButton.currentSprite];
-				ExitButton.Render(currentClip_Exit, gRenderer, gExitButtonTexture);
+				//SDL_Rect* currentClip_Help = &gHelpButton[HelpButton.currentSprite];
+				//HelpButton.Render( gRenderer, gHelpButtonTexture);
 
-				SDL_RenderPresent(gRenderer);*/
+				//SDL_Rect* currentClip_Exit = &gExitButton[ExitButton.currentSprite];
+				//ExitButton.Render( gRenderer, gExitButtonTexture);
+
+				SDL_RenderPresent(gRenderer);
+
 			}
-
-        }
-    }
-    /*SDL_Event e;
-    while(true){
-        if(SDL_WaitEvent(&e)==0)SDL_Delay(100);
-        else if (e.type==SDL_QUIT)break;
-        else if (e.type==SDL_KEYDOWN){
-            cerr<<"_" << SDL_GetKeyName(e.key.keysym.sym) << "_" << endl;
-            switch(e.key.keysym.sym){
-                case SDLK_u:
-            case SDLK_UP: y-=step; break;
-            case SDLK_m:
-            case SDLK_DOWN: y+=step; break;
-            case SDLK_h:
-            case SDLK_LEFT: x-=step; break;
-            case SDLK_k:
-            case SDLK_RIGHT: x+=step; break;
-            }
-
-            draw(renderer, x, y);
         }
     }
 
-    close();
-*/
+    Close();
+
     return 0;
 }
 bool initSDL() {
     bool success=true;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
-        logError("Failed to init SDL", SDL_ERROR);
+        LogError("Failed to init SDL", SDL_ERROR);
         success = false;
     }
     else
@@ -133,7 +138,7 @@ bool initSDL() {
 
         if (gWindow == NULL)
         {
-            logError("Can not create window: ", SDL_ERROR);
+            LogError("Can not create window: ", SDL_ERROR);
             success = false;
         }
         else
@@ -141,7 +146,7 @@ bool initSDL() {
             gRenderer = SDL_CreateRenderer(gWindow, -1,
                                            SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (gRenderer == NULL) {
-                logError("Can not create renderer: ", SDL_ERROR);
+                LogError("Can not create renderer: ", SDL_ERROR);
                 success = false;
             }
             else
@@ -150,19 +155,19 @@ bool initSDL() {
 
                 if (!IMG_Init(IMG_INIT_PNG))
                 {
-                    logError("Can not initialize SDL_image: ", IMG_ERROR);
+                    LogError("Can not initialize SDL_image: ", IMG_ERROR);
                     success = false;
                 }
 
                 if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
                 {
-                    logError("Can not initialize audio: ", MIX_ERROR);
+                    LogError("Can not initialize audio: ", MIX_ERROR);
                     success = false;
                 }
 
                 if (TTF_Init() < 0)
                 {
-                    logError("Can not initialize font: ", TTF_ERROR);
+                    LogError("Can not initialize font: ", TTF_ERROR);
                     success = false ;
                 }
             }
@@ -170,30 +175,64 @@ bool initSDL() {
     }
     return success;
 }
-void loadMedia()
+bool loadMedia()
 {
+    bool success = true;
+    if (!gMenuTexture.LoadFromFile("imgs/Background/game_menu.png", gRenderer))
+    {
+        cerr << "Failed to load menu image" << endl;
+        success = false;
+    }
+
+    if (!gInstructionTexture.LoadFromFile("imgs/Background/game_intro.png", gRenderer))
+    {
+        cerr << "Failed to load instruction image" << endl;
+        success = false;
+    }
+    if(!gBackgroundTexture.LoadFromFile("imgs/Background/game_play.png", gRenderer))
+    {
+        cerr << "Failed to load gameplay image" << endl;
+        success = false;
+    }
+    if(!gCharacterTexture.LoadFromFile("imgs/Character/Character.png", gRenderer))
+    {
+        cerr << "Failed to load character image" << endl;
+        success = false;
+    }
+    if(!gLoseTexture.LoadFromFile("imgs/Background/game_lose.png", gRenderer))
+    {
+        cerr << "Failed to load lose image" << endl;
+        success = false;
+    }
+    if (!gText1Texture.LoadFromRenderedText("Your score: ", gFont, textColor, gRenderer))
+    {
+        cerr << "Failed to render text1 texture" << endl;
+        success = false;
+    }
+    if (!gText2Texture.LoadFromRenderedText("High score: ", gFont, textColor, gRenderer))
+    {
+        cerr << "Failed to render text2 texture" << endl;
+        success = false;
+    }
+    if (!gText3Texture.LoadFromRenderedText("Your heath: ", gFont, textColor, gRenderer))
+    {
+        cerr << "Failed to render text3 texture" << endl;
+        success = false;
+    }
+    if (!gText4Texture.LoadFromRenderedText("Your armor: ", gFont, textColor, gRenderer))
+    {
+        cerr << "Failed to render text4 texture" << endl;
+        success = false;
+    }
+    return success;
 
 }
-void close()
+void Close()
 {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
+    // free()
+	SDL_DestroyRenderer(gRenderer);
+	SDL_DestroyWindow(gWindow);
 	SDL_Quit();
 }
-SDL_Texture* loadTexture( string path, SDL_Renderer* renderer )
-{
-    SDL_Texture* newTexture = nullptr;
-    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-    if ( loadedSurface == nullptr )
-        cout << "Unable to load image " << path << " SDL_image Error: "
-             << IMG_GetError() << endl;
-    else {
-        newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
-        if( newTexture == nullptr )
-            cout << "Unable to create texture from " << path << " SDL Error: "
-                 << SDL_GetError() << endl;
-        SDL_FreeSurface( loadedSurface );
-    }
-    return newTexture;
-}
+
 

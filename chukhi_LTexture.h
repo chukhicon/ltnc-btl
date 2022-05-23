@@ -2,33 +2,29 @@
 #define CHUKHI_LTEXTURE_H_
 
 #include "chukhi_base.h"
+
 class LTexture
 {
     public:
-        //Initializes variables
         LTexture();
 
-        //Deallocates memory
         ~LTexture();
 
-        //Deallocates texture
         void free();
 
-        bool loadFromRenderedText(string textureText, TTF_Font* gFont, SDL_Color textColor, SDL_Renderer *gRenderer);
+        bool LoadFromRenderedText(string textureText, TTF_Font* gFont, SDL_Color textColor, SDL_Renderer *gRenderer);
 
-        bool loadFromFile(string path, SDL_Renderer *gRenderer);
+        bool LoadFromFile(string path, SDL_Renderer *gRenderer);
 
-        void Render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip);
+        void Render(int x, int y, SDL_Renderer* gRenderer);
 
         int getWidth();
 
         int getHeight();
 
     private:
-        //The actual hardware texture
         SDL_Texture* mTexture;
 
-        //Image dimensions
         int mWidth;
 
         int mHeight;

@@ -39,17 +39,12 @@ void HandlePlayButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& Pl
 
 	if (PlayButton.IsInside(e, COMMON_BUTTON))
 	{
-		switch (e->type)
+		if (e->type == SDL_MOUSEBUTTONDOWN)
 		{
-		case SDL_MOUSEMOTION:
-			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
 			Play = true;
 			QuitMenu = true;
 			Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
 			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
-			break;
 		}
 	}
 	else
@@ -57,20 +52,76 @@ void HandlePlayButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& Pl
 		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
 	}
 }
+
+void HandleHelpButton(SDL_Event* e,
+	SDL_Rect& gBackButton,
+	Button& HelpButton,
+	Button& BackButton,
+	LTexture gInstructionTexture,
+	LTexture gBackButtonTexture,
+	SDL_Renderer *gRenderer,
+	bool &Quit_game,
+	Mix_Chunk *gClick)
+{
+	if (HelpButton.IsInside(e, COMMON_BUTTON))
+	{
+		if (e->type == SDL_MOUSEBUTTONDOWN)
+		{
+			HelpButton.currentSprite = BUTTON_MOUSE_OVER;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+
+			bool ReadDone = false;
+			while (!ReadDone)
+			{
+				do
+				{
+					if (e->type == SDL_QUIT)
+					{
+						ReadDone = true;
+						Quit_game = true;
+						Close();
+					}
+
+					else if (BackButton.IsInside(e, COMMON_BUTTON))
+					{
+						if(e->type == SDL_MOUSEBUTTONDOWN)
+						{
+							BackButton.currentSprite = BUTTON_MOUSE_OVER;
+							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+							ReadDone = true;
+						}
+					}
+					else
+					{
+						BackButton.currentSprite = BUTTON_MOUSE_OUT;
+					}
+
+					gInstructionTexture.Render(0, 0, gRenderer);
+
+					//SDL_Rect currentClip_Back = gBackButton;
+					//BackButton.Render( gRenderer, gBackButtonTexture);
+
+					SDL_RenderPresent(gRenderer);
+				}
+				while (SDL_PollEvent(e) != 0 && e->type == SDL_MOUSEBUTTONDOWN);
+			}
+		}
+	}
+	else
+	{
+		HelpButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
+
 void HandleExitButton(SDL_Event* e, Button& ExitButton, bool& Quit, Mix_Chunk* gClick)
 {
 	if (ExitButton.IsInside(e, COMMON_BUTTON))
 	{
-		switch (e->type)
+		if (e->type == SDL_MOUSEBUTTONDOWN)
 		{
-		case SDL_MOUSEMOTION:
-			ExitButton.currentSprite = BUTTON_MOUSE_OVER;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
 			Quit = true;
 			ExitButton.currentSprite = BUTTON_MOUSE_OVER;
 			Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
-			break;
 		}
 	}
 	else
@@ -78,3 +129,14 @@ void HandleExitButton(SDL_Event* e, Button& ExitButton, bool& Quit, Mix_Chunk* g
 		ExitButton.currentSprite = BUTTON_MOUSE_OUT;
 	}
 }
+
+void speedup(int& time, int& speed)
+{
+    if(time%20==0 && time>=20)
+    {
+        speed += /*SPEED_UP*/ 1;
+    }
+}
+
+bool CheckInside(){return false;}
+bool CheckColission(){return false;}

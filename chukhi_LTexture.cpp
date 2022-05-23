@@ -47,7 +47,7 @@ bool LTexture::LoadFromRenderedText(string textureText,TTF_Font *gFont, SDL_Colo
 	return mTexture != NULL;
 }
 
-bool loadFromFile(string path, SDL_Renderer *gRenderer)
+bool LTexture::LoadFromFile(string path, SDL_Renderer *gRenderer)
 {
     free();
 
@@ -82,21 +82,20 @@ bool loadFromFile(string path, SDL_Renderer *gRenderer)
 }
 
 
-        //Renders texture at given point
-void LTexture::Render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
+void LTexture::Render(int x, int y, SDL_Renderer* gRenderer)
 {
     SDL_Rect renderSpace = { x, y, mWidth, mHeight };
+    int w;
+    int h;
+    SDL_QueryTexture(mTexture,NULL,NULL,&w,&h);
 
-	if (clip != nullptr)
-	{
-		renderSpace.w = clip->w;
-		renderSpace.h = clip->h;
-	}
 
-	SDL_RenderCopy(gRenderer, mTexture, clip, &renderSpace);
+		renderSpace.w = w;
+		renderSpace.h = h;
+    SDL_Rect clip = {0,0,w,h};
+	SDL_RenderCopy(gRenderer, mTexture, &clip, &renderSpace);
 }
 
-        //Gets image dimensions
 int LTexture::getWidth(){return mWidth;}
 int LTexture::getHeight(){return mHeight;}
 

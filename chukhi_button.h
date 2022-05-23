@@ -10,6 +10,7 @@ public:
     ButtonSprite currentSprite;
 
     Button();
+
     Button(int x, int y);
 
 
@@ -19,7 +20,7 @@ public:
 
     bool IsInside(SDL_Event *e, int size);
 
-    void render(SDL_Rect* currentClip, SDL_Renderer* gRenderer, LTexture gButtonTexture);
+    void Render(SDL_Renderer* gRenderer, LTexture gButtonTexture);
 
 private:
     SDL_Point mPosition;

@@ -7,11 +7,15 @@
 #include<SDL_ttf.h>
 using namespace std;
 
+#define NOT_REPEATITIVE 0
+#define MIX_CHANNEL -1
 
-const int SCREEN_WIDTH = 1000;
-const int SCREEN_HEIGHT = 800;
+#define SMALL_BUTTON 1
+#define COMMON_BUTTON 2
+const int SCREEN_WIDTH = 1024;
+const int SCREEN_HEIGHT = 576;
 const int RECT_SIZE=30;
-const char* WINDOW_TITLE = "game cua chukhicon ne";
+
 
 const int COMMON_BUTTON_WIDTH = 150;
 const int COMMON_BUTTON_HEIGHT = 98;
@@ -32,7 +36,7 @@ const int CONTINUE_BUTTON_POSX = 31;
 const int CONTINUE_BUTTON_POSY = 29;// khai báo hằng số ở đây
 
 enum ErrorType {SDL_ERROR, IMG_ERROR, MIX_ERROR, OK_ERROR, TTF_ERROR};
-void LogError(string msg, ErrorType error_code = SDL_ERROR);
+
 enum ButtonSprite
 {
 	BUTTON_MOUSE_OUT = 0,
@@ -40,5 +44,5 @@ enum ButtonSprite
 	BUTTON_TOTAL = 2
 };
 
-
+void LogError(string msg, ErrorType error_code = SDL_ERROR);
 #endif // CHUKHI_BASE_
