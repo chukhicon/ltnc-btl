@@ -8,13 +8,15 @@ class Enemy
 public:
 	Enemy();
 
+	Enemy(int _posX, int _posY, int _type, const string& path, SDL_Renderer* gRenderer, int r);
+
 	~Enemy();
 
 	void LoadFromFile(string path, SDL_Renderer* gRenderer);
 
-	void Render(SDL_Renderer* gRenderer, SDL_Rect* currentClip = nullptr);
+	void Render(SDL_Renderer* gRenderer);
 
-	void Move(int& vitriX);
+	void move();
 
 	int GetPosX();
 
@@ -23,12 +25,25 @@ public:
 	int GetWidth();
 
 	int GetHeight();
-private:
+
+	void startInterval();
+
+	int getExistTime();
+
+	int GetType();
 	int posX, posY;
+	int type;
+	SDL_Texture *EnemyTexture;
+	int intervalStart;
+	void free();
+private:
 
 	int eWidth, eHeight;
 
+	int intervalEnd;
 
-	SDL_Texture *EnemyTexture;
+	int r;
+
+
 };
 #endif // CHUKHI_ENEMY_H_

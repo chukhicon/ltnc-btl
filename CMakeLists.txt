@@ -40,7 +40,7 @@ target_link_libraries(khicon
 )
 
 # install(DIRECTORY res DESTINATION res)
-file(COPY imgs Font DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY imgs Font Music DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 if (WIN32)
     file(GLOB lib
         "${SDL2_LIBRARY_DIR}/../bin/*.dll"

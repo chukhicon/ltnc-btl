@@ -6,7 +6,6 @@
 class Character
 {
 public:
-    static const int MOVE_START_X = 1, MOVE_START_Y = 2, SPEED_UP = 3;
 
     int MOVE_X = MOVE_START_X, MOVE_Y = MOVE_START_Y;
 
@@ -22,7 +21,7 @@ public:
 
 	void Move();
 
-	//void speedup(int& time, int& speed);
+
 
 	void Render(SDL_Renderer *gRenderer, LTexture gCharacterTexture);
 

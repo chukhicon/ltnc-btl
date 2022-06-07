@@ -41,19 +41,55 @@ void HandleExitButton(SDL_Event* e,
 
 void GenerateEnemy(Enemy& enemy1, Enemy& enemy2, Enemy& enemy3, SDL_Renderer* gRenderer);
 
-void GenerateHelp();
+void GenerateHelp(Help& help1, Help& help2, SDL_Renderer* gRenderer);
 
-bool CheckInside();
+bool CheckInside(Character character,  LTexture char_img, const int CHIEU_DAI, const int CHIEU_RONG);
 
-bool CheckColission();
+bool CheckColission(Character character, LTexture char_img, Enemy enemy);
 
-void XuLyDiem(int& health,
-               Enemy enemy1, Enemy enemy2, Enemy enemy3,
-               bool CheckColission );
+bool CheckEnemyColission(Enemy enemy1, Enemy enemy2);
 
-void DrawEndGameSelection(LTexture gLoseTexture,
-	SDL_Event *e,
-	SDL_Renderer *gRenderer,
-	bool &Play_Again, bool& Return_Menu, bool& Quit_Menu);
+void DrawPlayerScore(LTexture gTextTexture,
+    LTexture gScoreTexture,
+    SDL_Color textColor,
+    SDL_Renderer* gRenderer,
+    TTF_Font* gFont,
+    const int& score);
+
+void DrawPlayerHighScore(LTexture gTextTexture,
+    LTexture gHighScoreTexture,
+    SDL_Color textColor,
+    SDL_Renderer* gRenderer,
+    TTF_Font* gFont, 
+    const string& HighScore);
+
+void DrawPlayerHeath(LTexture gTextTexture,
+    LTexture gHeathTexture,
+    SDL_Color textColor,
+    SDL_Renderer* gRenderer,
+    TTF_Font* gFont, 
+    const int& Heath);
+
+
+
+
+void DrawPlayerYourScore(LTexture gTextTexture,
+	LTexture gYourScoreTexture, 
+	SDL_Color textColor, 
+	SDL_Renderer* gRenderer, 
+	TTF_Font* gFont, 
+	const int& YourScore);
+
+void DrawPlayerYourHighScore(LTexture gTextTexture,
+	LTexture gYourHighScoreTexture, 
+	SDL_Color textColor, 
+	SDL_Renderer* gRenderer, 
+	TTF_Font* gFont, 
+	const int& YourScore);
+
+void DrawEndGameSelection(LTexture gLoseTexture, LTexture gText5Texture, LTexture gText6Texture, LTexture gYourScoreTexture, 
+                    SDL_Event* e, SDL_Renderer* gRenderer, SDL_Color textcolor, TTF_Font* gFont, 
+                    bool& Play_Again, bool& Return_Menu, bool& Quit_Menu, 
+                    const int& YourScore, const string& highscore, Mix_Music* gMenuMusic);
 
 #endif // CHUKHI_UTILS_H_
